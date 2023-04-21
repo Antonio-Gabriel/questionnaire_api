@@ -8,9 +8,12 @@ namespace QuestionaryApp.Application.Mappers
     {
         public MappingProfiles()
         {
+            CreateMap<User, UserResponse>();
+            CreateMap<Score, ScoreResponse>();
             CreateMap<Category, CategoryResponse>();
 
             // Mapper by request
+            CreateMap<UserRequestDto, User>();
             CreateMap<CategoryRequestDto, Category>();
         }
     }
