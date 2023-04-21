@@ -1,0 +1,11 @@
+version: "3.4"
+
+services:
+  questionnairedb:
+    image: "mcr.microsoft.com/mssql/server:2022-latest"
+    ports:
+      - "1433:1433"
+
+    environment:
+      SA_PASSWORD: "Questionnaire@ssW0rd!"
+      ACCEPT_EULA: "Y"
