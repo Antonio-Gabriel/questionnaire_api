@@ -36,7 +36,7 @@ namespace QuestionaryApp.Controllers
         }
 
         [HttpGet("{id}")]
-        [ProducesResponseType(200, Type = typeof(IEnumerable<CategoryResponse>))]
+        [ProducesResponseType(200, Type = typeof(CategoryResponse))]
         [ProducesResponseType(400)]
         public async Task<IActionResult> GetById(Guid id)
         {
