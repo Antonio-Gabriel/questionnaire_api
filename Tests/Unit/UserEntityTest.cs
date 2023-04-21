@@ -1,6 +1,4 @@
 using NUnit.Framework;
-using QuestionaryApp.Domain.Entities;
-using QuestionaryApp.Domain.Validations;
 
 namespace Tests.Unit
 {
@@ -16,7 +14,6 @@ namespace Tests.Unit
                 Name = "Antonio Gabriel",
                 Email = "antoniocamposgabriel@gmail.com",
                 CodeName = "AgDevCoder",
-                Password = "antoniocampos"
             };
         }
 
