@@ -15,8 +15,7 @@ namespace Tests.Unit
                 {
                     Name = "Antonio Gabriel",
                     Email = "antoniocamposgabriel@gmail.com",
-                    CodeName = "AgDevCoder",
-                    Password = "antoniocampos"
+                    CodeName = "AgDevCoder",                    
                 }
             };
         }
