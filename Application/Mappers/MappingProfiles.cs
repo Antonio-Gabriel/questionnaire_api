@@ -14,6 +14,7 @@ namespace QuestionaryApp.Application.Mappers
 
             // Mapper by request
             CreateMap<UserRequestDto, User>();
+            CreateMap<ScoreRequestDto, Score>();
             CreateMap<CategoryRequestDto, Category>();
         }
     }
