@@ -11,11 +11,14 @@ namespace QuestionaryApp.Application.Mappers
             CreateMap<User, UserResponse>();
             CreateMap<Score, ScoreResponse>();
             CreateMap<Category, CategoryResponse>();
+            CreateMap<Question, QuestionResponse>();
+            CreateMap<Questionnaire, QuestionnaireResponse>();
 
             // Mapper by request
             CreateMap<UserRequestDto, User>();
             CreateMap<ScoreRequestDto, Score>();
             CreateMap<CategoryRequestDto, Category>();
+            CreateMap<QuestionnaireRequestDto, Questionnaire>();
         }
     }
 }
