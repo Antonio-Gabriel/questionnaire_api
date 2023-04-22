@@ -1,5 +1,3 @@
-using QuestionaryApp.Domain.Common;
-
 namespace QuestionaryApp.Domain.Entities
 {
     public class Question : BaseAuditableEntity
