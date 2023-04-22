@@ -46,15 +46,15 @@ namespace QuestionaryApp.Controllers
 
             return Ok(user);
         }
-        
-        [HttpGet("{id}/Score")]
+
+        [HttpGet("{userId}/Score")]
         [ProducesResponseType(200, Type = typeof(ScoreResponse))]
         [ProducesResponseType(400)]
-        public async Task<IActionResult> GetUserScores(Guid id)
+        public async Task<IActionResult> GetUserScores(Guid userId)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
 
-            var userScores = _mapper.Map<ScoreResponse>(await _userRepository.GetUserScore(id));
+            var userScores = _mapper.Map<ScoreResponse>(await _userRepository.GetUserScore(userId));
 
             return Ok(userScores);
         }
