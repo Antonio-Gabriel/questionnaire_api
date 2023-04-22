@@ -7,7 +7,7 @@ namespace QuestionaryApp.Controllers
 {
     [ApiController]
     [Route("api/v1/[controller]")]
-    public class UserController : ControllerBase
+    public class UserController : Controller
     {
         private ILogger _log;
         private IMapper _mapper;
