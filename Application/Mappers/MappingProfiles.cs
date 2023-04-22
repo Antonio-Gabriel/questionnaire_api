@@ -10,6 +10,7 @@ namespace QuestionaryApp.Application.Mappers
         {
             CreateMap<User, UserResponse>();
             CreateMap<Score, ScoreResponse>();
+            CreateMap<Answer, AnswerResponse>();
             CreateMap<Category, CategoryResponse>();
             CreateMap<Question, QuestionResponse>();
             CreateMap<Questionnaire, QuestionnaireResponse>();
@@ -18,6 +19,7 @@ namespace QuestionaryApp.Application.Mappers
             CreateMap<UserRequestDto, User>();
             CreateMap<ScoreRequestDto, Score>();
             CreateMap<CategoryRequestDto, Category>();
+            CreateMap<QuestionRequestDto, Question>();
             CreateMap<QuestionnaireRequestDto, Questionnaire>();
         }
     }
