@@ -12,7 +12,7 @@ using QuestionaryApp.Data;
 namespace QuestionaryApp.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230421090931_InitialCreate")]
+    [Migration("20230422011145_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -164,8 +164,7 @@ namespace QuestionaryApp.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("CategoryId")
-                        .IsUnique();
+                    b.HasIndex("CategoryId");
 
                     b.HasIndex(new[] { "Title" }, "IX_Questionnaire_Title");
 
@@ -279,8 +278,8 @@ namespace QuestionaryApp.Migrations
             modelBuilder.Entity("QuestionaryApp.Domain.Entities.Questionnaire", b =>
                 {
                     b.HasOne("QuestionaryApp.Domain.Entities.Category", "Category")
-                        .WithOne("Questionnaire")
-                        .HasForeignKey("QuestionaryApp.Domain.Entities.Questionnaire", "CategoryId")
+                        .WithMany("Questionnaire")
+                        .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -300,8 +299,7 @@ namespace QuestionaryApp.Migrations
 
             modelBuilder.Entity("QuestionaryApp.Domain.Entities.Category", b =>
                 {
-                    b.Navigation("Questionnaire")
-                        .IsRequired();
+                    b.Navigation("Questionnaire");
                 });
 
             modelBuilder.Entity("QuestionaryApp.Domain.Entities.Question", b =>

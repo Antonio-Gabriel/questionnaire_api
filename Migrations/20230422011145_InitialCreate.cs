@@ -141,8 +141,7 @@ namespace QuestionaryApp.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_Questionnaire_CategoryId",
                 table: "Questionnaire",
-                column: "CategoryId",
-                unique: true);
+                column: "CategoryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Questionnaire_Title",
