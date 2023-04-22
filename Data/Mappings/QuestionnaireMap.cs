@@ -22,17 +22,17 @@ namespace QuestionaryApp.Data.Mappings
 
             builder
                 .HasOne(x => x.Category)
-                .WithOne(x => x.Questionnaire)
-                .HasForeignKey<Questionnaire>(x => x.CategoryId)
+                .WithMany(x => x.Questionnaire)
+                .HasForeignKey(x => x.CategoryId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-            builder.Property(x => x.CreatedAt)                
+            builder.Property(x => x.CreatedAt)
                 .HasColumnName("CreatedAt")
                 .HasColumnType("DATETIME")
                 .HasMaxLength(60)
                 .HasDefaultValueSql("GETUTCDATE()");
 
-            builder.Property(x => x.LastModified)                
+            builder.Property(x => x.LastModified)
                 .HasColumnName("LastModified")
                 .HasColumnType("DATETIME")
                 .HasMaxLength(60)
