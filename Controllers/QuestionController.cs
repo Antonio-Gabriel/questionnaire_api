@@ -1,13 +1,15 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using QuestionaryApp.Application.Dtos.Request;
 using QuestionaryApp.Application.Dtos.Response;
 
 namespace QuestionaryApp.Controllers
 {
     [ApiController]
-    [Route("api/v1/[controller]")]
-    public class QuestionController : Controller
+    [Route("api/v1")]
+    [Authorize]
+    public class QuestionController : ControllerBase
     {
         private ILogger _log;
         private IMapper _mapper;
@@ -23,7 +25,7 @@ namespace QuestionaryApp.Controllers
             _questionRepository = questionRepository;
         }
 
-        [HttpGet]
+        [HttpGet("questions")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<QuestionResponse>))]
         [ProducesResponseType(400)]
         public async Task<IActionResult> Get()
@@ -35,7 +37,7 @@ namespace QuestionaryApp.Controllers
             return Ok(questions);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("question/{id}")]
         [ProducesResponseType(200, Type = typeof(QuestionResponse))]
         [ProducesResponseType(400)]
         public async Task<IActionResult> GetById(Guid id)
@@ -47,7 +49,7 @@ namespace QuestionaryApp.Controllers
             return Ok(question);
         }
 
-        [HttpGet("{questionId}/Answers")]
+        [HttpGet("question/{questionId}/answers")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<AnswerResponse>))]
         [ProducesResponseType(400)]
         public async Task<IActionResult> GetQuestionsOfQuestionnaire(Guid questionId)
@@ -62,7 +64,7 @@ namespace QuestionaryApp.Controllers
             return Ok(answers);
         }
 
-        [HttpPost]
+        [HttpPost("question")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> Create(
@@ -104,7 +106,7 @@ namespace QuestionaryApp.Controllers
             return Ok("Successfully created");
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("question/{id}/update")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -139,7 +141,7 @@ namespace QuestionaryApp.Controllers
             return Ok("Successfully updated");
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("question/{id}/delete")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
