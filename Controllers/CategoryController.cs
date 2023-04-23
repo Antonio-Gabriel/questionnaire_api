@@ -1,13 +1,15 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using QuestionaryApp.Application.Dtos.Request;
 using QuestionaryApp.Application.Dtos.Response;
 
 namespace QuestionaryApp.Controllers
 {
     [ApiController]
-    [Route("api/v1/[controller]")]
-    public class CategoryController : Controller
+    [Route("api/v1")]
+    [Authorize]
+    public class CategoryController : ControllerBase
     {
         private ILogger _log;
         private IMapper _mapper;
@@ -23,7 +25,7 @@ namespace QuestionaryApp.Controllers
             _categoryRepository = categoryRepository;
         }
 
-        [HttpGet]
+        [HttpGet("category")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<CategoryResponse>))]
         [ProducesResponseType(400)]
         public async Task<IActionResult> Get()
@@ -35,7 +37,7 @@ namespace QuestionaryApp.Controllers
             return Ok(categories);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("category/{id}")]
         [ProducesResponseType(200, Type = typeof(CategoryResponse))]
         [ProducesResponseType(400)]
         public async Task<IActionResult> GetById(Guid id)
@@ -47,7 +49,7 @@ namespace QuestionaryApp.Controllers
             return Ok(category);
         }
 
-        [HttpPost]
+        [HttpPost("category")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> Create(
@@ -80,7 +82,7 @@ namespace QuestionaryApp.Controllers
             return Ok("Successfully created");
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("category/{id}/update")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -114,7 +116,7 @@ namespace QuestionaryApp.Controllers
             return Ok("Successfully updated");
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("category/{id}/delete")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
