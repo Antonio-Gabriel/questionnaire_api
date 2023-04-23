@@ -1,13 +1,15 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
 using QuestionaryApp.Application.Dtos.Request;
 using QuestionaryApp.Application.Dtos.Response;
 
 namespace QuestionaryApp.Controllers
 {
     [ApiController]
-    [Route("api/v1/[controller]")]
-    public class ScoreController : Controller
+    [Route("api/v1")]
+    [Authorize]
+    public class ScoreController : ControllerBase
     {
         private ILogger _log;
         private IMapper _mapper;
@@ -26,7 +28,7 @@ namespace QuestionaryApp.Controllers
             _scoreRepository = scoreRepository;
         }
 
-        [HttpGet]
+        [HttpGet("scores")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<ScoreResponse>))]
         [ProducesResponseType(400)]
         public async Task<IActionResult> Get()
@@ -38,7 +40,7 @@ namespace QuestionaryApp.Controllers
             return Ok(scores);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("score/{id}")]
         [ProducesResponseType(200, Type = typeof(ScoreResponse))]
         [ProducesResponseType(400)]
         public async Task<IActionResult> GetById(Guid id)
@@ -50,7 +52,7 @@ namespace QuestionaryApp.Controllers
             return Ok(score);
         }
 
-        [HttpPost]
+        [HttpPost("score")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         public async Task<IActionResult> Create(
@@ -82,7 +84,7 @@ namespace QuestionaryApp.Controllers
             return Ok("Successfully created");
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("score/{id}/update")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
@@ -117,7 +119,7 @@ namespace QuestionaryApp.Controllers
             return Ok("Successfully updated");
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("score/{id}/delete")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
