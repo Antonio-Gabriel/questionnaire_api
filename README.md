@@ -30,7 +30,7 @@ public static class Globals
 }
 ```
 
-if you have docker and docker-compose installed just need to do this.
+if you have docker and docker-compose installed, you can run the following command after completing the above guidelines.
 
 ```shell
 docker-compose up --build
