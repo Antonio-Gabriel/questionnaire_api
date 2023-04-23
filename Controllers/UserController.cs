@@ -1,31 +1,38 @@
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using QuestionaryApp.Application.Security.Jwt;
 using QuestionaryApp.Application.Dtos.Request;
 using QuestionaryApp.Application.Dtos.Response;
+using QuestionaryApp.Application.Security.Bcrypt;
 
 namespace QuestionaryApp.Controllers
 {
     [ApiController]
-    [Route("api/v1/[controller]")]
-    public class UserController : Controller
+    [Route("api/v1")]
+    public class UserController : ControllerBase
     {
         private ILogger _log;
         private IMapper _mapper;
+        private IConfiguration _configuration;
         private IUserRepository _userRepository;
         public UserController(
             IMapper mapper,
             ILogger<UserController> log,
+            IConfiguration configuration,
             IUserRepository userRepository
         )
         {
             _log = log;
             _mapper = mapper;
+            _configuration = configuration;
             _userRepository = userRepository;
         }
 
-        [HttpGet]
+        [HttpGet("users")]
         [ProducesResponseType(200, Type = typeof(IEnumerable<UserResponse>))]
         [ProducesResponseType(400)]
+        [Authorize]
         public async Task<IActionResult> Get()
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -35,9 +42,10 @@ namespace QuestionaryApp.Controllers
             return Ok(users);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("user/{id}")]
         [ProducesResponseType(200, Type = typeof(UserResponse))]
         [ProducesResponseType(400)]
+        [Authorize]
         public async Task<IActionResult> GetById(Guid id)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -47,9 +55,10 @@ namespace QuestionaryApp.Controllers
             return Ok(user);
         }
 
-        [HttpGet("{userId}/Score")]
+        [HttpGet("user/{userId}/score")]
         [ProducesResponseType(200, Type = typeof(ScoreResponse))]
         [ProducesResponseType(400)]
+        [Authorize]
         public async Task<IActionResult> GetUserScores(Guid userId)
         {
             if (!ModelState.IsValid) return BadRequest(ModelState);
@@ -59,9 +68,59 @@ namespace QuestionaryApp.Controllers
             return Ok(userScores);
         }
 
-        [HttpPost]
+        [HttpPost("user/auth")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
+        [AllowAnonymous]
+        public async Task<IActionResult> SignIn(
+            [FromBody] AuthRequestDto authRequest
+            )
+        {
+            if (!ModelState.IsValid)
+            {
+                _log.LogWarning("Something wrong, check the payload data");
+                return BadRequest(ModelState);
+            };
+
+            var userExists = await _userRepository.GetUserByEmail(authRequest.Email);
+            if (userExists == null)
+            {
+                _log.LogInformation("User don't exists, unauthorized");
+                return Unauthorized("Unauthorized");
+            }
+
+            if (!Bcrypt.Verify(authRequest.Password, userExists.Password))
+            {
+                _log.LogInformation("User don't exists, unauthorized");
+                return Unauthorized("Unauthorized");
+            }
+
+            string token = TokenGenerator.generate(
+                _configuration["JwtSettings:key"],
+                userExists.Id, userExists.Email
+                );
+
+            var response = new
+            {
+                Token = token,
+                User = new UserResponse
+                {
+                    Id = userExists.Id,
+                    Name = userExists.Name,
+                    Email = userExists.Email,
+                    CodeName = userExists.CodeName,
+                    CreatedAt = (DateTime)userExists.CreatedAt,
+                    LastModified = (DateTime)userExists.LastModified
+                }
+            };
+
+            return Ok(response);
+        }
+
+        [HttpPost("user/create")]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        [AllowAnonymous]
         public async Task<IActionResult> Create(
             [FromBody] UserRequestDto userRequest
             )
@@ -95,10 +154,11 @@ namespace QuestionaryApp.Controllers
             return Ok("Successfully created");
         }
 
-        [HttpPut("{id}")]
+        [HttpPut("user/{id}/update")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
+        [Authorize]
         public async Task<IActionResult> Update(
             Guid id, [FromBody] UserRequestDto userRequest
             )
@@ -132,10 +192,11 @@ namespace QuestionaryApp.Controllers
             return Ok("Successfully updated");
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("user/{id}/delete")]
         [ProducesResponseType(204)]
         [ProducesResponseType(400)]
         [ProducesResponseType(404)]
+        [Authorize]
         public async Task<IActionResult> Delete(Guid id)
         {
             if (!ModelState.IsValid)
