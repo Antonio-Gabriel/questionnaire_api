@@ -6,7 +6,7 @@ This app was developed by modules and with a simple software design approach.
 
 ## Get started
 
-For starting this project first no need to have `.net` version `6.*` or `7.*` and Microsoft SQL Server in your machine or Docker.
+For starting this project first you need to have `.net` version `6.*` or `7.*` and Microsoft SQL Server in your machine or Docker.
 
 If you have SQlServer just need to create a database and change the url connection in the project.
 
