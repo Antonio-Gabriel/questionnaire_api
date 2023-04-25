@@ -47,7 +47,7 @@ namespace QuestionaryApp.Migrations
 
                     b.Property<string>("Text")
                         .IsRequired()
-                        .HasMaxLength(80)
+                        .HasMaxLength(255)
                         .HasColumnType("VARCHAR")
                         .HasColumnName("Text");
 
@@ -119,7 +119,7 @@ namespace QuestionaryApp.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(120)
+                        .HasMaxLength(255)
                         .HasColumnType("VARCHAR")
                         .HasColumnName("Title");
 
@@ -155,7 +155,7 @@ namespace QuestionaryApp.Migrations
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasMaxLength(120)
+                        .HasMaxLength(255)
                         .HasColumnType("VARCHAR")
                         .HasColumnName("Title");
 
