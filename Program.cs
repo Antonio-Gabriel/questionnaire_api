@@ -1,4 +1,5 @@
 using QuestionaryApp.Data;
+using QuestionaryApp.Seeds;
 using Microsoft.OpenApi.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -9,7 +10,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 var builder = WebApplication.CreateBuilder(args);
 
 // Database connection
-string myConnection = builder.Configuration.GetConnectionString("Default");
+string? myConnection = builder.Configuration.GetConnectionString("Default");
 builder.Services.AddDbContext<DataContext>(
     options => options.UseSqlServer(myConnection)
 );
@@ -20,7 +21,6 @@ builder.Host.ConfigureLogging(logging =>
     logging.ClearProviders();
     logging.AddConsole();
 });
-
 
 var config = builder.Configuration;
 
@@ -93,7 +93,26 @@ builder.Services.AddSwaggerGen(option =>
     });
 });
 
+builder.Services.AddTransient<QuestionnaireSeed>();
+
 var app = builder.Build();
+
+// Make seed
+
+if (args.Length == 1 && args[0].ToLower() == "seeddata") {
+    Task.Run(() => SeedData(app));
+}
+
+async void SeedData(IHost app)
+{
+    var scopedFactory = app.Services.GetService<IServiceScopeFactory>();
+
+    using (var scope = scopedFactory!.CreateScope())
+    {
+        var service = scope.ServiceProvider.GetService<QuestionnaireSeed>();
+        await service!.SeedDataContext();
+    }
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
