@@ -18,7 +18,7 @@ namespace QuestionaryApp.Data.Mappings
                 .IsRequired()
                 .HasColumnName("Title")
                 .HasColumnType("VARCHAR")
-                .HasMaxLength(120);
+                .HasMaxLength(255);
 
             builder
                 .HasOne(x => x.Category)
