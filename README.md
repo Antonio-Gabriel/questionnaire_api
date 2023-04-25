@@ -40,4 +40,18 @@ After doing all of this you're ready to start.
 
 Run the commands bellow.
 
+```shell
+dotnet run seeddata
+```
+
+This command will insert data consumed to an external api.
+
+After access the swagger documentation and for signIn use this data
+
+```json
+{
+  "email": "antoniogabriel12@gmail.com",
+  "password": "antoniogabriel"
+}
+```
 
