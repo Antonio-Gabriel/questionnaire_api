@@ -18,7 +18,7 @@ namespace QuestionaryApp.Data.Mappings
                 .IsRequired()
                 .HasColumnName("Text")
                 .HasColumnType("VARCHAR")
-                .HasMaxLength(80);
+                .HasMaxLength(255);
 
             builder.Property(x => x.isCorrect)
                .HasDefaultValue(false);
